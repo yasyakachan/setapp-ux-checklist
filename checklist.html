@@ -1,0 +1,314 @@
+<style>
+:root{--pink:#FF00AA;--pl:#FF80D5;--bg:#fff;--bg2:#f2f2f2;--bg3:#f8f8f8;--border:#e0e0e0;--text:#1a1a1a;--muted:#888;--green:#34C759;--yellow:#FFCC00;--red:#FF0033;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:14px;min-height:100vh;}
+.header{padding:20px 20px 0;}
+.header-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;}
+.logo{display:flex;align-items:center;gap:8px;}
+.logo-dot{width:10px;height:10px;border-radius:50%;background:var(--pink);}
+.logo-text{font-size:15px;font-weight:700;}
+.logo-sub{font-size:11px;color:var(--muted);margin-top:1px;}
+.total-pct{font-size:22px;font-weight:800;color:var(--pink);text-align:right;}
+.total-label{font-size:11px;color:var(--muted);}
+.main-bar-wrap{height:4px;background:var(--bg2);border-radius:99px;margin-bottom:16px;overflow:hidden;}
+.main-bar{height:4px;background:var(--pink);border-radius:99px;transition:width .4s;width:0%;}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;padding:0 20px 14px;border-bottom:1px solid var(--border);}
+.tab{padding:5px 12px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid var(--border);color:var(--muted);background:transparent;transition:all .15s;white-space:nowrap;}
+.tab:hover{border-color:var(--pl);color:var(--text);}
+.tab.active{background:var(--pink);border-color:var(--pink);color:#fff;font-weight:700;}
+.content{padding:0 20px 100px;}
+.section{display:none;}.section.visible{display:block;}
+.sec-hdr{padding:16px 0 6px;display:flex;justify-content:space-between;align-items:center;}
+.sec-title{font-size:15px;font-weight:700;display:flex;align-items:center;gap:6px;}
+.sec-prog{font-size:11px;color:var(--muted);}
+.sec-bar-wrap{height:3px;background:var(--bg2);border-radius:99px;margin-bottom:10px;overflow:hidden;}
+.sec-bar{height:3px;background:var(--pink);border-radius:99px;transition:width .3s;}
+.item{background:#fff;border-radius:10px;padding:12px 14px;margin-bottom:7px;border:1px solid var(--border);cursor:pointer;transition:border-color .15s,background .15s;user-select:none;}
+.item:hover{border-color:#ccc;background:var(--bg3);}
+.item.checked{border-color:#34C75960;background:#f4fff8;}
+.item-row{display:flex;align-items:flex-start;gap:10px;}
+.cb{width:18px;height:18px;border-radius:5px;border:1.5px solid var(--border);flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all .15s;background:#fff;}
+.item.checked .cb{background:var(--green);border-color:var(--green);}
+.cb-check{display:none;color:#fff;font-size:11px;font-weight:800;}
+.item.checked .cb-check{display:block;}
+.item-body{flex:1;min-width:0;}
+.badge{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.04em;padding:2px 7px;border-radius:4px;margin-bottom:5px;text-transform:uppercase;}
+.badge.critical{background:#fff0f0;color:#cc0022;}
+.badge.important{background:#fffbe0;color:#996600;}
+.badge.polish{background:#f0fff4;color:#1a7a3a;}
+.item-text{font-size:13px;line-height:1.45;color:var(--text);}
+.examples{display:flex;flex-direction:column;gap:4px;margin-top:7px;}
+.ex{font-size:11px;font-family:'SF Mono',monospace;padding:5px 9px;border-radius:6px;display:flex;align-items:flex-start;gap:5px;line-height:1.4;}
+.ex.good{background:#f0fff4;color:#1a6b35;border:1px solid #c3e6cb;}
+.ex.bad{background:#fff5f5;color:#aa1122;border:1px solid #f5c2c7;}
+.it-section{padding-top:16px;}
+.it-title{font-size:14px;font-weight:700;margin-bottom:4px;}
+.it-sub{font-size:11px;color:var(--muted);margin-bottom:14px;}
+.it-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:24px;}
+.it-card{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 12px;display:flex;align-items:flex-start;gap:8px;}
+.it-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:3px;}
+.it-name{font-size:12px;font-weight:600;margin-bottom:2px;}
+.it-desc{font-size:11px;color:var(--muted);line-height:1.4;}
+.sc-title{font-size:14px;font-weight:700;margin-bottom:10px;}
+.sc-row{display:flex;align-items:center;justify-content:space-between;padding:9px 14px;border-radius:8px;margin-bottom:5px;}
+.sc-num{font-size:13px;font-weight:800;}
+.sc-label{font-size:12px;}
+.bottom-bar{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:1px solid var(--border);padding:12px 20px;display:flex;gap:10px;}
+.btn{flex:1;padding:10px;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:var(--bg3);color:var(--text);display:flex;align-items:center;justify-content:center;gap:6px;transition:background .15s;}
+.btn:hover{background:var(--bg2);}
+.btn.primary{background:var(--pink);border-color:var(--pink);color:#fff;}
+.btn.primary:hover{background:#e0009a;}
+.copied{background:var(--green)!important;border-color:var(--green)!important;color:#fff!important;}
+</style>
+
+<div class="header">
+  <div class="header-top">
+    <div class="logo"><div class="logo-dot"></div><div><div class="logo-text">macOS UX Checklist</div><div class="logo-sub">Setapp vendor guide</div></div></div>
+    <div><div class="total-pct" id="total-pct">0%</div><div class="total-label" id="total-label">0 / 0 completed</div></div>
+  </div>
+  <div class="main-bar-wrap"><div class="main-bar" id="main-bar"></div></div>
+</div>
+<div class="tabs" id="tabs"></div>
+<div class="content" id="content"></div>
+<div class="bottom-bar">
+  <button class="btn" onclick="resetAll()">↺ Reset all</button>
+  <button class="btn primary" id="copy-btn" onclick="copyResults()">⎘ Copy results</button>
+</div>
+
+<script>
+const S=[
+  {id:'visual',label:'Visual & Layout',emoji:'👁',items:[
+    {t:'important',text:'Uses SF Pro (or SF Mono for code). No custom fonts that clash with macOS feel'},
+    {t:'important',text:'Body text is at least 13pt. Nothing important smaller than 11pt'},
+    {t:'polish',text:'Spacing follows 8pt grid. Padding is consistent across the app'},
+    {t:'critical',text:'Text contrast meets WCAG AA: 4.5:1 for text, 3:1 for UI elements'},
+    {t:'important',text:'Dark mode works. No hardcoded hex colors — uses NSColor semantic values'},
+    {t:'important',text:'Traffic lights (●●●) are in standard position. Window is resizable where expected'},
+    {t:'polish',text:'Native macOS controls used where possible (NSButton, NSTextField, etc.)'},
+    {t:'important',text:'All icons have visible labels or tooltips — no icon-only UI without explanation'},
+    {t:'polish',text:'Vibrancy / translucency used appropriately (NSVisualEffectView)'},
+  ]},
+  {id:'interaction',label:'Interaction & Feedback',emoji:'⚡️',items:[
+    {t:'critical',text:'Every action >200ms shows a loading indicator'},
+    {t:'important',text:'Every action >2s shows progress with estimated time or %'},
+    {t:'critical',text:'Errors use human language. No error codes shown to users',ex:[{g:"Couldn't connect. Check your Wi-Fi and try again."},{b:'Error 503'}]},
+    {t:'critical',text:'Error messages include: what happened + why + how to fix it',ex:[{g:'Upload failed — file is over 25 MB. Compress it and try again.'},{b:'Upload failed.'}]},
+    {t:'important',text:'Success states are confirmed clearly (not just "nothing went wrong")',ex:[{g:'12 files backed up successfully'},{b:'(silence / no message)'}]},
+    {t:'critical',text:'Empty states are instructive — tell the user what to do, not just show nothing',ex:[{g:'No notes yet. Press ⌘N to create your first one.'},{b:'No items found'}]},
+    {t:'critical',text:'Destructive actions (delete, overwrite) require confirmation',ex:[{g:"Delete \"Project.zip\"? This can't be undone."},{b:'Are you sure?'}]},
+    {t:'important',text:'Undo is available for destructive actions where possible'},
+    {t:'polish',text:'Hover states are visible on all interactive elements'},
+    {t:'important',text:'Focus rings visible for keyboard navigation'},
+  ]},
+  {id:'keyboard',label:'Keyboard & Accessibility',emoji:'♿️',items:[
+    {t:'critical',text:'Escape closes modals, popovers, and dismissable UI'},
+    {t:'important',text:'Tab order is logical (left→right, top→bottom)'},
+    {t:'important',text:'Common actions have keyboard shortcuts (⌘N, ⌘S, ⌘W, etc.)'},
+    {t:'important',text:'Shortcuts follow macOS conventions. No conflicts with system shortcuts'},
+    {t:'important',text:'VoiceOver labels set on all controls (accessibilityLabel)'},
+    {t:'important',text:'Images and icons have accessibility descriptions'},
+    {t:'polish',text:'App works with Reduce Motion preference enabled'},
+  ]},
+  {id:'uxcopy',label:'UX Copy',emoji:'✍️',items:[
+    {t:'important',text:'Button labels are action-oriented',ex:[{g:'Save Changes'},{g:'Delete Account'},{b:'OK'},{b:'Submit'}]},
+    {t:'important',text:'No jargon or technical terms visible to end users',ex:[{g:'Reconnecting...'},{b:'WebSocket connection failed'}]},
+    {t:'polish',text:'Sentence case used consistently',ex:[{g:'Save to folder'},{b:'Save To Folder'}]},
+    {t:'important',text:'Onboarding copy is encouraging and progressive, not overwhelming',ex:[{g:"Let's set up your first backup — takes 2 minutes."},{b:'Configure your preferences, set retention policy, add exclusions...'}]},
+    {t:'polish',text:'Tooltips add new information — don\'t just repeat the button label',ex:[{g:'Archive (moves to archive, keeps for 30 days)'},{b:'Archive'}]},
+    {t:'important',text:'Placeholder text is an example, not a label',ex:[{g:'Label: "Name" · Placeholder: "e.g. My Backup"'},{b:'Placeholder only: "Name"'}]},
+    {t:'polish',text:'Tone is consistent across all screens'},
+    {t:'critical',text:'Confirmation dialogs describe the action specifically',ex:[{g:"Delete \"Project.zip\"? This can't be undone."},{b:'Are you sure?'}]},
+    {t:'important',text:'Numbers and units are human-readable and contextualized',ex:[{g:'7.2 GB of cache files (safe to remove)'},{b:'7,324,928,512 bytes'}]},
+    {t:'important',text:'Empty states have specific copy — not just "No items found"',ex:[{g:'No backups yet. Click "New Backup" to protect your files.'},{b:'No items found'}]},
+  ]},
+  {id:'onboarding',label:'Onboarding & First Use',emoji:'🚀',items:[
+    {t:'critical',text:'First-run experience guides user to first value in under 3 steps'},
+    {t:'critical',text:'Permission requests explain why the permission is needed and what it enables',ex:[{g:"Access your Desktop to back up files you're working on."},{b:'This app requires Full Disk Access.'}]},
+    {t:'important',text:'No required sign-up before user sees value'},
+    {t:'important',text:'Setup progress is shown if onboarding has multiple steps'},
+    {t:'polish',text:'User can skip non-essential onboarding steps'},
+    {t:'important',text:'Welcome screen communicates value proposition clearly in one sentence'},
+    {t:'important',text:'Sample or demo data is shown in empty states so user understands what the app does before adding their own'},
+    {t:'critical',text:'Notification permission is requested in context — after user sees value, not on first launch'},
+  ]},
+  {id:'navigation',label:'Navigation & Structure',emoji:'🗺',items:[
+    {t:'critical',text:'User always knows where they are in the app'},
+    {t:'critical',text:'There is always a way to go back or cancel'},
+    {t:'important',text:'The most common action is the most prominent one'},
+    {t:'important',text:'Settings are easy to find. Not buried more than 2 levels deep'},
+    {t:'important',text:'Navigation structure matches macOS conventions for the app type'},
+  ]},
+  {id:'performance',label:'Performance & Responsiveness',emoji:'⚡',items:[
+    {t:'critical',text:'App launches in under 3 seconds on a standard Mac. No blank white window while loading'},
+    {t:'critical',text:'UI responds to clicks instantly (<100ms feel). No frozen or unresponsive states without explanation'},
+    {t:'important',text:'Animations run at 60fps. No jank during transitions or scrolling'},
+    {t:'important',text:'App does not cause excessive CPU/fan activity when idle'},
+    {t:'important',text:'Memory usage is reasonable and does not grow unbounded over time'},
+    {t:'critical',text:'Long operations (sync, export, scan) run in background — UI remains usable'},
+  ]},
+  {id:'errors',label:'Error Handling & Recovery',emoji:'🛟',items:[
+    {t:'critical',text:'Every error has a clear recovery path — a button or instruction telling user what to do next',ex:[{g:"Couldn't save. [Try Again] or [Save Locally]"},{b:'Save failed. (no action)'}]},
+    {t:'important',text:'Network errors distinguish between "no connection" and "server error"',ex:[{g:"You're offline. Changes will sync when you reconnect."},{b:'Connection error'}]},
+    {t:'critical',text:'App never silently fails — if something went wrong the user always knows'},
+    {t:'critical',text:"If a long operation fails midway, user's data and progress are preserved"},
+    {t:'important',text:'Crash or force-quit recovery — app restores to last known state on relaunch'},
+    {t:'important',text:'Validation errors shown inline next to the field, not in a generic alert at the top',ex:[{g:'Red border + "Must be at least 8 characters" under the field'},{b:'Alert: "Invalid input"'}]},
+    {t:'critical',text:'Permission denied errors explain exactly how to fix it',ex:[{g:'Open System Settings → Privacy & Security → Files → enable [App]'},{b:'Permission denied'}]},
+  ]},
+  {id:'issue-types',label:'Issue Types',emoji:'📋',special:true},
+];
+
+const IT=[
+  {dot:'#FF9F0A',name:'Error handling',desc:'missing loading, error, success states'},
+  {dot:'#FF0033',name:'Empty states',desc:'blank screens with no guidance'},
+  {dot:'#34C759',name:'Navigation',desc:'unclear structure, findability'},
+  {dot:'#007AFF',name:'Onboarding',desc:'first-run, setup flow, time-to-value'},
+  {dot:'#AF52DE',name:'Accessibility',desc:'contrast, keyboard nav, VoiceOver'},
+  {dot:'#FFCC00',name:'Copy',desc:'CTAs, labels, error messages, tone'},
+  {dot:'#FF00AA',name:'Visual design',desc:'spacing, color, consistency'},
+  {dot:'#FF80D5',name:'Cognitive overload',desc:'too much at once, decision fatigue'},
+  {dot:'#FF6B6B',name:'Functional bugs',desc:'broken interactions, missing feedback'},
+];
+
+const SC=[
+  {range:'9–10',label:'Exceptional — sets the standard for the category',bg:'#f0fff4',col:'#1a6b35'},
+  {range:'7–8',label:'Good — works well, a few improvements available',bg:'#f5fff0',col:'#3a7a1a'},
+  {range:'5–6',label:'Average — notable friction affects experience',bg:'#fffde0',col:'#806600'},
+  {range:'3–4',label:'Poor — significant problems affect core tasks',bg:'#fff0f2',col:'#aa0022'},
+  {range:'1–2',label:'Broken — core flows fail or confuse users',bg:'#ffe8ea',col:'#880011'},
+];
+
+const state={};
+let active='all';
+const ord={critical:0,important:1,polish:2};
+
+function buildTabs(){
+  const tabs=document.getElementById('tabs');
+  const total=S.filter(s=>!s.special).reduce((a,s)=>a+s.items.length,0);
+  const mk=(id,label)=>{
+    const b=document.createElement('button');
+    b.className='tab'+(id==='all'?' active':'');
+    b.id='tab-'+id; b.textContent=label;
+    b.onclick=()=>switchTo(id);
+    tabs.appendChild(b);
+  };
+  mk('all','☑ All checks ('+total+')');
+  S.forEach(s=>mk(s.id, s.emoji+' '+s.label+(s.items?' ('+s.items.length+')':'')));
+}
+
+function switchTo(id){
+  active=id;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('visible'));
+  document.getElementById('sec-'+id).classList.add('visible');
+}
+
+function mkItem(item,key){
+  if(!(key in state)) state[key]=false;
+  const d=document.createElement('div');
+  d.className='item'+(state[key]?' checked':'');
+  d.setAttribute('data-key',key);
+  let exH='';
+  if(item.ex) exH='<div class="examples">'+item.ex.map(e=>e.g?`<div class="ex good">✓ ${e.g}</div>`:`<div class="ex bad">✗ ${e.b}</div>`).join('')+'</div>';
+  d.innerHTML=`<div class="item-row"><div class="cb"><span class="cb-check">✓</span></div><div class="item-body"><span class="badge ${item.t}">${item.t}</span><div class="item-text">${item.text}</div>${exH}</div></div>`;
+  d.onclick=()=>{
+    state[key]=!state[key];
+    document.querySelectorAll('[data-key="'+key+'"]').forEach(el=>el.classList.toggle('checked',state[key]));
+    updateProgress();
+  };
+  return d;
+}
+
+function mkSecHdr(s,suffix){
+  const hdr=document.createElement('div'); hdr.className='sec-hdr';
+  hdr.innerHTML=`<div class="sec-title">${s.emoji} ${s.label}</div><div class="sec-prog" id="sp-${suffix}">0 / ${s.items.length}</div>`;
+  const bw=document.createElement('div'); bw.className='sec-bar-wrap';
+  bw.innerHTML=`<div class="sec-bar" id="sb-${suffix}" style="width:0%"></div>`;
+  return [hdr,bw];
+}
+
+function buildContent(){
+  const c=document.getElementById('content');
+  const allDiv=document.createElement('div');
+  allDiv.className='section visible'; allDiv.id='sec-all';
+  S.filter(s=>!s.special).forEach(s=>{
+    const [hdr,bw]=mkSecHdr(s,'all-'+s.id);
+    allDiv.appendChild(hdr); allDiv.appendChild(bw);
+    const sorted=[...s.items.map((item,i)=>({item,i}))].sort((a,b)=>ord[a.item.t]-ord[b.item.t]);
+    sorted.forEach(({item,i})=>allDiv.appendChild(mkItem(item,s.id+'-'+i)));
+  });
+  c.appendChild(allDiv);
+
+  S.forEach(s=>{
+    const div=document.createElement('div');
+    div.className='section'; div.id='sec-'+s.id;
+    if(s.special){
+      div.innerHTML=buildIT();
+    } else {
+      const [hdr,bw]=mkSecHdr(s,s.id);
+      div.appendChild(hdr); div.appendChild(bw);
+      const sorted=[...s.items.map((item,i)=>({item,i}))].sort((a,b)=>ord[a.item.t]-ord[b.item.t]);
+      sorted.forEach(({item,i})=>div.appendChild(mkItem(item,s.id+'-'+i)));
+    }
+    c.appendChild(div);
+  });
+}
+
+function buildIT(){
+  return `<div class="it-section">
+    <div class="it-title">📋 Issue Type Reference</div>
+    <div class="it-sub">Use these labels when logging UX bugs in Jira, Linear, or GitHub Issues.</div>
+    <div class="it-grid">${IT.map(it=>`<div class="it-card"><div class="it-dot" style="background:${it.dot}"></div><div><div class="it-name">${it.name}</div><div class="it-desc">${it.desc}</div></div></div>`).join('')}</div>
+    <div class="sc-title">📊 Scoring Guide</div>
+    ${SC.map(s=>`<div class="sc-row" style="background:${s.bg};border:1px solid ${s.col}33"><span class="sc-num" style="color:${s.col}">${s.range}</span><span class="sc-label" style="color:${s.col}">${s.label}</span></div>`).join('')}
+  </div>`;
+}
+
+function updateProgress(){
+  const keys=Object.keys(state);
+  const done=keys.filter(k=>state[k]).length;
+  const total=keys.length;
+  const pct=total?Math.round(done/total*100):0;
+  document.getElementById('total-pct').textContent=pct+'%';
+  document.getElementById('total-label').textContent=done+' / '+total+' completed';
+  document.getElementById('main-bar').style.width=pct+'%';
+  S.filter(s=>!s.special).forEach(s=>{
+    const sk=keys.filter(k=>k.startsWith(s.id+'-'));
+    const sd=sk.filter(k=>state[k]).length;
+    const st2=sk.length;
+    const sp=st2?Math.round(sd/st2*100):0;
+    ['sp-'+s.id,'sp-all-'+s.id].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=sd+' / '+st2;});
+    ['sb-'+s.id,'sb-all-'+s.id].forEach(id=>{const el=document.getElementById(id);if(el)el.style.width=sp+'%';});
+  });
+}
+
+function resetAll(){
+  Object.keys(state).forEach(k=>state[k]=false);
+  document.querySelectorAll('.item').forEach(el=>el.classList.remove('checked'));
+  updateProgress();
+}
+
+function copyResults(){
+  const lines=['macOS UX Checklist — Results\n'];
+  S.filter(s=>!s.special).forEach(s=>{
+    lines.push('\n## '+s.emoji+' '+s.label);
+    s.items.forEach((item,i)=>{
+      const key=s.id+'-'+i;
+      lines.push((state[key]?'✓':'○')+' ['+item.t.toUpperCase()+'] '+item.text);
+    });
+  });
+  const done=Object.values(state).filter(Boolean).length;
+  const total=Object.keys(state).length;
+  lines.push('\n\nTotal: '+done+'/'+total+' ('+Math.round(done/total*100)+'%)');
+  navigator.clipboard.writeText(lines.join('\n')).then(()=>{
+    const btn=document.getElementById('copy-btn');
+    btn.classList.add('copied'); btn.textContent='✓ Copied!';
+    setTimeout(()=>{btn.classList.remove('copied');btn.innerHTML='⎘ Copy results';},2000);
+  });
+}
+
+buildTabs();
+buildContent();
+updateProgress();
+</script>
